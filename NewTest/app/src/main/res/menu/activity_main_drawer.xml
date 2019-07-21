@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu1"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_menu2"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Barcode Scanner" />
+        <item
+            android:id="@+id/nav_menu3"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Nutrition" />
+        <item
+            android:id="@+id/nav_menu4"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Macros" />
+        <item
+            android:id="@+id/nav_menu5"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Personal Recipes" />
+        <item
+            android:id="@+id/nav_menu6"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Add A Recipe" />
+        <item
+            android:id="@+id/nav_menu7"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Calculator" />
+
+    </group>
+
+
+</menu>
