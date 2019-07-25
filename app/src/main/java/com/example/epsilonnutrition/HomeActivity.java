@@ -51,7 +51,7 @@ public class HomeActivity extends Fragment {
 
     // set remaining calories
     TextView tv = getView().findViewById(R.id.count);
-    tv.setText(String.format("Remaining Calories %d/%d", Math.round(db.profile.caloriesConsumed), Math.round(db.profile.tdee)));
+    tv.setText(String.format("Calories Consumed %d/%d", Math.round(db.profile.caloriesConsumed), Math.round(db.profile.tdee)));
 
     // fill listview with consumed foods
     getConsumedFoods();
@@ -93,13 +93,13 @@ public class HomeActivity extends Fragment {
   }
 
   public void getConsumedFoods() {
-    Log.e("TIM_GETTINGFOODS", "trying to get consumed foods");
+    Log.e("TIM_GETTINGFOODS", "trying to get consumedd foods");
     TextView label = getView().findViewById(R.id.label_consumed_foods);
     ArrayList<Food> arr;
     Date d = Calendar.getInstance().getTime();
     String date = (String) DateFormat.format("MM/dd/yyyy", d);
     arr = db.foodData.get(date);
-    Log.e("TIM_GOTFOODS", "IM HERE");
+    Log.e("TIM_GOTFOODS", "IM IN HERE");
     if (arr == null) {
       arr = new ArrayList();
       label.setText("");
@@ -127,6 +127,9 @@ public class HomeActivity extends Fragment {
       getActivity().finish();
     } catch (IOException e) {
       Log.e("TIM_IOEXCEPTION", e.toString());
+      Intent welcome = new Intent(getActivity(), WelcomeActivity.class);
+      startActivity(welcome);
+      getActivity().finish();
     } catch (ClassNotFoundException e) {
       Log.e("TIM_CLASSNOTFOUND", e.toString());
     }

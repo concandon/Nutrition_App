@@ -59,7 +59,8 @@ public class Menu7Calculator3 extends Fragment {
                 ageTDEE = Double.parseDouble(age3.getText().toString());
 
 
-                bmrTDEE1 = ((10 * weightTDEE) + (6.25 * heightTDEE) - (5 * ageTDEE) + 5 );
+//                bmrTDEE1 = ((10 * weightTDEE) + (6.25 * heightTDEE) - (5 * ageTDEE) + 5 );
+                bmrTDEE1 = ((6.24 * weightTDEE) + (12.7 * heightTDEE) - (6.755 * ageTDEE) + 66.47 ) * getMultiplier();
 
                 resultMale3.setText("TDEE = " +bmrTDEE1);
             }
@@ -79,8 +80,8 @@ public class Menu7Calculator3 extends Fragment {
                 heightTDEE = Double.parseDouble(height3.getText().toString());
                 ageTDEE = Double.parseDouble(age3.getText().toString());
 
-                bmrTDEE2 = ((10 * weightTDEE) + (6.25 * heightTDEE) - (5 * ageTDEE) + 161);
-
+//                bmrTDEE2 = ((10 * weightTDEE) + (6.25 * heightTDEE) - (5 * ageTDEE) + 161);
+                bmrTDEE2 = ((4.35 * weightTDEE) + (4.7 * heightTDEE) - (4.7 * ageTDEE) + 655.1) * getMultiplier();
                 resultFemale3.setText("TDEE = " +bmrTDEE2);
             }
         });
@@ -92,15 +93,15 @@ public class Menu7Calculator3 extends Fragment {
         int index = rg.indexOfChild(getActivity().findViewById(rg.getCheckedRadioButtonId()));
         switch(index) {
             case 0:
-                return 1.0;
+                return 1.2;
             case 1:
-                return 1.3;
+                return 1.375;
             case 2:
                 return 1.5;
             case 3:
-                return 1.8;
+                return 1.725;
         }
-        return 1.0;
+        return 1.2;
     }
 
     private EditText height3;

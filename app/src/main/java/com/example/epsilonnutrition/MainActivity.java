@@ -2,6 +2,7 @@ package com.example.epsilonnutrition;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity
         fragment = new Menu7();
         break;
       case R.id.nav_menu6:
-        fragment = new HomeActivity();
+        fragment = new DiaryActivity();
+        Log.e("TIM_JUSTCHECKING", "ASDASDASD");
         break;
     }
 

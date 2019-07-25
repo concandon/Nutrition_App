@@ -34,9 +34,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 public class SearchActivity extends Fragment {
-
-  public static final String QUERY = "query";
-  public static final String FOOD = "food";
   private RequestQueue MyRequestQueue;
   String query;
 
