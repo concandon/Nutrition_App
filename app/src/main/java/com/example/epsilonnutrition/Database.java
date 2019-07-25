@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.HashMap;
 
 enum ActivityLvl {
@@ -93,23 +95,42 @@ class Food implements Serializable {
   }
 }
 
-class DiaryEntry {
+class DiaryEntry implements Serializable {
   String title;
   String entry;
   String date;
   String time;
 
-  DiaryEntry(){}
+  DiaryEntry(){
+    title = "";
+    entry = "";
+    getDateTime();
+  }
+
+  DiaryEntry(String title, String entry) {
+    this.title = title;
+    this.entry = entry;
+    getDateTime();
+  }
+
+  void getDateTime() {
+    GregorianCalendar g = new GregorianCalendar();
+    date = String.format("%02d/%02d/%d", g.get(Calendar.MONTH) + 1, g.get(Calendar.DAY_OF_MONTH), g.get(Calendar.YEAR));
+    time = String.format("%d:%d%s", g.get(Calendar.HOUR), g.get(Calendar.MINUTE), g.get(Calendar.AM_PM) == 1 ? "PM" : "AM");
+  }
 
 //  DiaryEntry(String title, String entry, )
+
 }
 
 public class Database implements Serializable {
   Profile profile;
   HashMap<String, ArrayList<Food>> foodData;
+  ArrayList<DiaryEntry> diary;
 
   Database() {
     profile = new Profile();
     foodData = new HashMap<>();
+    diary = new ArrayList<>();
   }
 }
