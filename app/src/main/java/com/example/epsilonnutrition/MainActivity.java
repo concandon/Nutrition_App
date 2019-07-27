@@ -84,10 +84,10 @@ public class MainActivity extends AppCompatActivity
         fragment = new HomeActivity();
         break;
       case R.id.nav_menu2:
-        fragment = new HomeActivity();
+        fragment = new ProfileActivity();
         break;
       case R.id.nav_menu3:
-        fragment = new HomeActivity();
+        fragment = new NutritionActivity();
         break;
       case R.id.nav_menu4:
         fragment = new RecipesHomepage();

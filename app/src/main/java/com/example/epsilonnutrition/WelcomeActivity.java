@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
     genderDropdown.setAdapter(genderAdapter);
 
     Spinner activityDropdown = findViewById(R.id.spinner_activity);
-    String[] levels = new String[] {"Sedentary", "Lightly Active", "Moderately Active", "Very Active", "Extremely Active"};
+    String[] levels = new String[] {"Sedentary", "Lightly Active", "Moderately Active", "Very Active"};
     ArrayAdapter<String> activityAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, levels);
     activityDropdown.setAdapter(activityAdapter);
   }
@@ -57,42 +58,49 @@ public class WelcomeActivity extends AppCompatActivity {
   public void createProfile(View view) {
     EditText et;
     Spinner sp;
-    et = findViewById(R.id.edit_name);
-    db.profile.name = et.getText().toString();
-    et = findViewById(R.id.edit_bday);
-    db.profile.bday = et.getText().toString();
-    et = findViewById(R.id.edit_weight);
-    db.profile.weight = Double.parseDouble(et.getText().toString());
-    sp = findViewById(R.id.spinner_height_feet);
-    db.profile.heightFeet = Integer.parseInt(sp.getSelectedItem().toString());
-    sp = findViewById(R.id.spinner_height_inches);
-    db.profile.heightInches = Integer.parseInt(sp.getSelectedItem().toString());
-    sp = findViewById(R.id.spinner_gender);
-    db.profile.gender = sp.getSelectedItem().toString();
-    sp = findViewById(R.id.spinner_activity);
-    switch(sp.getSelectedItemPosition()) {
-      case 0:
-        db.profile.activityLvl = ActivityLvl.SEDENTARY;
-        break;
-      case 1:
-        db.profile.activityLvl = ActivityLvl.LIGHTLY_ACTIVE;
-        break;
-      case 2:
-        db.profile.activityLvl = ActivityLvl.MODERATELY_ACTIVE;
-        break;
-      case 3:
-        db.profile.activityLvl = ActivityLvl.VERY_ACTIVE;
-        break;
-      case 4:
-        db.profile.activityLvl = ActivityLvl.EXTREMELY_ACTIVE;
-        break;
+    try {
+      et = findViewById(R.id.edit_name);
+      db.profile.name = et.getText().toString();
+      et = findViewById(R.id.edit_bday);
+      db.profile.bday = et.getText().toString();
+      et = findViewById(R.id.edit_weight);
+      db.profile.weight = Double.parseDouble(et.getText().toString());
+      sp = findViewById(R.id.spinner_height_feet);
+      db.profile.heightFeet = Integer.parseInt(sp.getSelectedItem().toString());
+      sp = findViewById(R.id.spinner_height_inches);
+      db.profile.heightInches = Integer.parseInt(sp.getSelectedItem().toString());
+      sp = findViewById(R.id.spinner_gender);
+      db.profile.gender = sp.getSelectedItem().toString();
+      sp = findViewById(R.id.spinner_activity);
+      switch(sp.getSelectedItemPosition()) {
+        case 0:
+          db.profile.activityLvl = ActivityLvl.SEDENTARY;
+          break;
+        case 1:
+          db.profile.activityLvl = ActivityLvl.LIGHTLY_ACTIVE;
+          break;
+        case 2:
+          db.profile.activityLvl = ActivityLvl.MODERATELY_ACTIVE;
+          break;
+        case 3:
+          db.profile.activityLvl = ActivityLvl.VERY_ACTIVE;
+          break;
+      }
+      et = findViewById(R.id.edit_age);
+      db.profile.age = Integer.parseInt(et.getText().toString());
+    } catch (Exception e) {
+      Log.e("ILLEGALSTATE", "User didn't fill everything in");
+      Toast.makeText(this, "You must fill in all fields!", Toast.LENGTH_LONG).show();
+      return;
     }
-    et = findViewById(R.id.edit_age);
-    db.profile.age = Integer.parseInt(et.getText().toString());
-
-    // temp
-    db.profile.tdee = 2400;
-
+    int height = (db.profile.heightFeet * 12 + db.profile.heightInches);
+    db.profile.bmi = 703 * db.profile.weight / (height * height);
+    if (db.profile.gender == "male") {
+      db.profile.bmr = ((6.24 * db.profile.weight) + (12.7 * height) - (6.755 * db.profile.age) + 66.47);
+    } else {
+      db.profile.bmr = ((4.35 * db.profile.weight) + (4.7 * height) - (4.7 * db.profile.age) + 655.1);
+    }
+    getTdee();
     try {
       File file = new File(getFilesDir(), "db");
       FileOutputStream f = new FileOutputStream(file);
@@ -125,6 +133,19 @@ public class WelcomeActivity extends AppCompatActivity {
       Log.d("TIM_STILL_FILENOTFOUND", er.toString());
     } catch(IOException er) {
       Log.d("TIM_STILL_IOERROR", er.toString());
+    }
+  }
+
+  public void getTdee() {
+    switch (db.profile.activityLvl) {
+      case SEDENTARY:
+        db.profile.tdee = db.profile.bmr * 1.2;
+      case LIGHTLY_ACTIVE:
+        db.profile.tdee = db.profile.bmr * 1.375;
+      case MODERATELY_ACTIVE:
+        db.profile.tdee = db.profile.bmr * 1.5;
+      case VERY_ACTIVE:
+        db.profile.tdee = db.profile.bmr * 1.725;
     }
   }
 }
